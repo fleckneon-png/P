@@ -105,7 +105,7 @@ window.addEventListener("load", () => {
     // Typewriter start
     .add(() => {
         gsap.to('#typewriter', {
-            text: "Coding | UX UI | Graphic Design",
+            text: "WhatsApp Bots | Telegram Bots | JavaScript | Node.js",
             duration: 3,
             ease: "none"
         });
@@ -176,118 +176,5 @@ gsap.utils.toArray('[data-gsap="slide-up"]').forEach(el => {
             toggleActions: "play reverse play reverse"
         },
         y: 100, opacity: 0, duration: 1, ease: "power3.out"
-    });
-});
-
-// 8. Age & Stats Calculator
-function updateTimeBasedStats() {
-    const birthDate = new Date('2008-06-10T11:10:00');
-    const careerStartDate = new Date('2019-06-10T00:00:00'); // Assuming started around age 11
-    const now = new Date();
-    // --- AGE CALCULATION ---
-    let years = now.getFullYear() - birthDate.getFullYear();
-    let months = now.getMonth() - birthDate.getMonth();
-    let days = now.getDate() - birthDate.getDate();
-    let hours = now.getHours() - birthDate.getHours();
-    let minutes = now.getMinutes() - birthDate.getMinutes();
-    let seconds = now.getSeconds() - birthDate.getSeconds();
-    if(seconds < 0) { seconds += 60; minutes--; }
-    if(minutes < 0) { minutes += 60; hours--; }
-    if(hours < 0) { hours += 24; days--; }
-    if(days < 0) {
-        const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
-        days += prevMonth.getDate();
-        months--;
-    }
-    if(months < 0) { months += 12; years--; }
-    const els = {
-        years: document.getElementById('years'),
-        months: document.getElementById('months'),
-        days: document.getElementById('days'),
-        hours: document.getElementById('hours'),
-        minutes: document.getElementById('minutes'),
-        seconds: document.getElementById('seconds'),
-        secBar: document.getElementById('sec-bar')
-    };
-    if(els.years) els.years.innerText = String(years).padStart(2, '0');
-    if(els.months) els.months.innerText = String(months).padStart(2, '0');
-    if(els.days) els.days.innerText = String(days).padStart(2, '0');
-    if(els.hours) els.hours.innerText = String(hours).padStart(2, '0');
-    if(els.minutes) els.minutes.innerText = String(minutes).padStart(2, '0');
-    if(els.seconds) els.seconds.innerText = String(seconds).padStart(2, '0');
-    if(els.secBar) {
-        const secPercent = (seconds / 60) * 100;
-        els.secBar.style.width = `${secPercent}%`;
-    }
-    // --- CAREER STATS CALCULATION ---
-    // Calculate Experience
-    let expYears = now.getFullYear() - careerStartDate.getFullYear();
-    let expMonths = now.getMonth() - careerStartDate.getMonth();
-    if (expMonths < 0) {
-        expYears--;
-        expMonths += 12;
-    }
-    // Format experience (e.g., 5+)
-    const expEl = document.getElementById('dynamic-exp');
-    if(expEl) expEl.innerText = `${expYears}+`;
-    // Calculate Projects (Approximate rate: 1.5 projects per month since start)
-    const totalMonthsSinceStart = (expYears * 12) + expMonths;
-    const estimatedProjects = Math.floor(totalMonthsSinceStart * 1.5) + 20; // +20 base
-    const projEl = document.getElementById('dynamic-projects');
-    if(projEl) projEl.innerText = `${estimatedProjects}+`;
-}
-setInterval(updateTimeBasedStats, 1000);
-updateTimeBasedStats();
-
-// 9. Horizontal Scroll (Advanced - Bug Fixes)
-const worksWrapper = document.querySelector("#works-wrapper");
-function getScrollAmount() {
-    let worksWidth = worksWrapper.scrollWidth;
-    // Ensure we don't return positive values if content fits screen
-    return -Math.max(0, worksWidth - window.innerWidth);
-}
-const tween = gsap.to(worksWrapper, {
-    x: getScrollAmount,
-    ease: "none"
-});
-ScrollTrigger.create({
-    trigger: "#works-container",
-    start: "top top",
-    end: () => "+=" + (worksWrapper.scrollWidth - window.innerWidth),
-    pin: true,
-    animation: tween,
-    scrub: 1,
-    invalidateOnRefresh: true,
-    anticipatePin: 1
-});
-
-// 10. Timeline Line Drawing
-gsap.to("#scroll-line", {
-    height: "100%",
-    ease: "none",
-    scrollTrigger: {
-        trigger: ".timeline-line",
-        start: "top center",
-        end: "bottom center",
-        scrub: 0.5
-    }
-});
-// Force refresh triggers after window load to ensure accurate measurements
-window.addEventListener("load", () => {
-    ScrollTrigger.refresh();
-});
-// Service Items Stagger (Bi-directional)
-gsap.utils.toArray('[data-gsap="service-item"]').forEach((item, i) => {
-    gsap.from(item, {
-        scrollTrigger: {
-            trigger: item,
-            start: "top 90%",
-            end: "bottom top",
-            toggleActions: "play reverse play reverse"
-        },
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        delay: i * 0.1
     });
 });
